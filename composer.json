@@ -1,5 +1,5 @@
 {
-    "name": "sgrodzicki/pingdom",
+    "name": "yaelgisha/pingdom",
     "type": "library",
     "description": "A PHP library for dealing with the Pingdom REST API",
     "keywords": ["pingdom", "api"],
