@@ -203,4 +203,56 @@ class Client
 
         return $response['summary'][$resolution . 's'];
     }
+
+    /**
+     * Get Average Response time for a specific period for a country/probe
+     *
+     * @param int $checkId
+     * @param string $geoDimension
+     * @param int $from
+     * @param int $to
+     * @return array
+     */
+    public function getAvgResponseByGeoDimention($checkId, $geoDimension, $from, $to) {
+        $client = new \Guzzle\Service\Client('https://api.pingdom.com/api/2.0');
+
+        /** @var $request \Guzzle\Http\Message\Request */
+        $request = $client->get('summary.average/' . $checkId, array('App-Key' => $this->token));
+        $request->setAuth($this->username, $this->password);
+        $request->getQuery()->set($geoDimension, 'true');
+        $request->getQuery()->set('from', $from);
+        $request->getQuery()->set('to', $to);
+
+        $response = $request->send();
+        $response = json_decode($response->getBody(), true);
+
+        if ($geoDimension === 'bycountry') {
+            return $response['summary']["responsetime"]["avgresponse"];
+        }
+        else {
+            return $response['summary']["responsetime"];
+        }
+    }
+
+    /**
+     * Get average hourly response time for a specific period.
+     *
+     * @param int $checkId
+     * @param int $from
+     * @param int $to
+     * @return array
+     */
+    public function getHourlyAvgResponse($checkId, $from, $to) {
+        $client = new \Guzzle\Service\Client('https://api.pingdom.com/api/2.0');
+
+        /** @var $request \Guzzle\Http\Message\Request */
+        $request = $client->get('summary.hoursofday/' . $checkId, array('App-Key' => $this->token));
+        $request->setAuth($this->username, $this->password);
+        $request->getQuery()->set('from', $from);
+        $request->getQuery()->set('to', $to);
+
+        $response = $request->send();
+        $response = json_decode($response->getBody(), true);
+        return $response['hoursofday'];
+    }
 }
