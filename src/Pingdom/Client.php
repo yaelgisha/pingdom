@@ -213,7 +213,7 @@ class Client
      * @param int $to
      * @return array
      */
-    public function getAvgResponseByGeoDimention($checkId, $geoDimension, $from, $to) {
+    public function getAvgResponseByGeoDimension($checkId, $geoDimension, $from, $to) {
         $client = new \Guzzle\Service\Client('https://api.pingdom.com/api/2.0');
 
         /** @var $request \Guzzle\Http\Message\Request */
